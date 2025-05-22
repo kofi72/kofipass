@@ -1,0 +1,6 @@
+external:
+https://github.com/openssl/openssl
+https://github.com/P-H-C/phc-winner-argon2
+internal:
+https://github.com/RavuAlHemio/cpptotp
+https://github.com/nlohmann/json/
