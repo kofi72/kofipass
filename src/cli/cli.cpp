@@ -7,14 +7,15 @@
 #include <iostream>
 #include <string>
 
-void cli_open_file(std::string file_path)
+bool cli_open_file(std::string file_path)
 {
   using std::cout, std::cin, std::string;
   std::filesystem::path file(file_path);
   if(!std::filesystem::exists(file))
   {
+    return cli_open_file(file_path+".kpass");
     cout << color::red << "No such file!\n" << color::normal;
-    return;
+    return false;
   }
 
   std::unique_ptr<crypto_provider> encryptor = cli_setup_encryption();
@@ -27,7 +28,7 @@ void cli_open_file(std::string file_path)
   catch(std::runtime_error &e)
   {
     cout << color::red << "File load failed\n" << color::normal;
-    return;
+    return false;
   }
   nlohmann::json json;
   try
@@ -37,7 +38,7 @@ void cli_open_file(std::string file_path)
   catch(nlohmann::json_abi_v3_11_3::detail::parse_error &e)
   {
     cout << color::red << "Bad password or corrupted data\n" << color::normal;
-    return;
+    return false;
   }
   Folder root(json);
 
@@ -62,6 +63,7 @@ void cli_open_file(std::string file_path)
       cout << color::green << "Exported to file!\n" << color::normal;
     }
   }
+  return true;
 }
 
 void cli_open_file()

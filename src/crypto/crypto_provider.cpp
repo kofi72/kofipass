@@ -1,5 +1,4 @@
 #include "crypto_provider.hxx"
-#include "openssl/rijndael.hxx"
 #include "openssl/sha256.hxx"
 #include "sodium/chacha20poly1305.hxx"
 #include "argon2/argon2_wrapper.hxx"

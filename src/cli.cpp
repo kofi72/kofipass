@@ -7,6 +7,8 @@
 #include <ctime>
 #include <signal.h>
 
+#include <fcntl.h>
+
 using namespace std;
 
 void dissmiss(int signal)
@@ -16,9 +18,10 @@ void dissmiss(int signal)
 
 int main(int argc, char* argv[])
 {
-  signal(SIGINT, )
+  signal(SIGINT, dissmiss);
   srand(time(NULL));
-  run_test();
+  // TEST
+  // run_test();
   if(argc == 2)
   {
     cli_open_file(argv[1]);

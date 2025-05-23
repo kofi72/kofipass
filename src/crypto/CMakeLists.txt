@@ -4,7 +4,6 @@ add_library(chacha20 sodium/chacha20poly1305.cpp)
 target_link_libraries(chacha20 sodium)
 
 # OPENSSL
-add_library(rijndael openssl/rijndael.cpp)
 add_library(base64 openssl/base64.cpp)
 
 target_link_libraries(base64 crypto)

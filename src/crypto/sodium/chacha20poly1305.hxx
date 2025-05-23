@@ -1,4 +1,5 @@
 #include <sodium.h>
+#include <vector>
 
 namespace chacha20_poly1305_ns
 {
