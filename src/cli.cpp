@@ -5,11 +5,18 @@
 #include <fstream>
 #include <cstdlib>
 #include <ctime>
+#include <signal.h>
 
 using namespace std;
 
+void dissmiss(int signal)
+{
+  std::cerr << "dissmised signal: " << signal << endl;
+}
+
 int main(int argc, char* argv[])
 {
+  signal(SIGINT, )
   srand(time(NULL));
   run_test();
   if(argc == 2)
