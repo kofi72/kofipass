@@ -7,6 +7,22 @@
 #include <iostream>
 #include <string>
 
+bool confirm(std::string what)
+{
+  std::cout << what << "? y/n ";
+  char choice;
+  while(true)
+  {
+    std::cout << "save changes? y/n ";
+    std::cin >> choice;
+    std::cin.ignore();
+    if(choice == 'y')
+      return true;
+    if(choice == 'n')
+      return false;
+  }
+}
+
 bool cli_open_file(std::string file_path)
 {
   using std::cout, std::cin, std::string;
@@ -49,15 +65,7 @@ bool cli_open_file(std::string file_path)
   // prompt save changes
   if(json_str !=  root.json().dump())
   {
-    char choice = 0;
-    while(choice != 'y' && choice != 'n')
-    {
-      cout << "save changes? y/n ";
-      cin >> choice;
-      cin.ignore();
-    }
-
-    if(choice == 'y')
+    if(confirm("save to file"))
     {
       encryptor->export_to_file(file_path, root.json().dump());
       cout << color::green << "Exported to file!\n" << color::normal;

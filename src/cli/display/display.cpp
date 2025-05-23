@@ -275,7 +275,7 @@ public:
         }
         continue;
       }
-      else
+      else // is number
       {
         index = stoi( choice );
         if( index >= ( int )item.content.size() || index < 0 )

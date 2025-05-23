@@ -3,6 +3,8 @@
 
 #include <string>
 
+bool confirm(std::string what);
+
 void cli_new_file();
 void cli_open_file();
 void cli_open_file(std::string file_path);

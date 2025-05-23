@@ -12,12 +12,15 @@
 using namespace std;
 
 void dissmiss(int signal)
-{
-  std::cerr << "dissmised signal: " << signal << endl;
+{ 
+  std::cout << endl;
+  if(confirm("terminate without save (" + to_string(signal) + ")"))
+    exit(0);
 }
 
 int main(int argc, char* argv[])
 {
+  ios_base::sync_with_stdio(false);
   signal(SIGINT, dissmiss);
   srand(time(NULL));
   // TEST
@@ -27,7 +30,7 @@ int main(int argc, char* argv[])
     cli_open_file(argv[1]);
     return 0;
   }
-  for( ;; )
+  while(true)
   {
     cout
         << "o) open file\n"
