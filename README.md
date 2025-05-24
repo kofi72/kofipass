@@ -10,4 +10,5 @@
 
 ### what isn't supported
 - attachments
+- item history
 - big chunks of text might be unreadable (can be folded as "hidden text field")
