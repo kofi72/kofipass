@@ -6,7 +6,7 @@
 - encrypted folders
 - chacha20 poly1305 (the only supported algorithm)
 - custom items
-- OTP with libcppotp
+- OTP with [libcppotp](https://github.com/RavuAlHemio/cpptotp/tree/master)
 
 ### what isn't supported
 - attachments
