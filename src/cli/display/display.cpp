@@ -1,4 +1,5 @@
 #include "../summary/summary.cpp"
+#include "../tools/tools.hxx"
 
 #include <string>
 #include <iostream>
@@ -144,8 +145,7 @@ public:
         case 'd': // fall-through
         case 's': // fall-through
           cout << "Index?> ";
-          cin >> index;
-          cin.ignore();
+          index = get_number_from_stdin();
           if( index >= ( int )item.content.size() || index < 0 )
           {
             cout << color::red << "No such position\n" << color::normal;
@@ -176,9 +176,7 @@ public:
           else if(choice[0] == 's')
           {
             cout << "Index?> ";
-            int index2;
-            cin >> index2;
-            cin.ignore();
+            int index2 = get_number_from_stdin();
             if( index >= ( int )item.content.size() || index < 0 )
             {
               cout << color::red << "No such position\n" << color::normal;

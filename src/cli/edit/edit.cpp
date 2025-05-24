@@ -1,6 +1,8 @@
 #include <string>
 #include <iostream>
 
+#include "../tools/tools.hxx"
+
 std::unique_ptr<field_base> textFieldCreator()
 {
   safe_string name, content;
@@ -207,9 +209,7 @@ struct : public display_visitor
       {
         std::cout << "Removing field...\n";
         std::cout << "index?>";
-        int index;
-        std::cin >> index;
-        std::cin.ignore();
+        int index = get_number_from_stdin();
         if(index < 0 || index >= (int)item.content.size())
           std::cout << color::red << "No such index!" << color::normal << '\n';
         else
@@ -218,9 +218,7 @@ struct : public display_visitor
       else if(choice == 'e')
       {
         std::cout << "index?>";
-        int index;
-        std::cin >> index;
-        std::cin.ignore();
+        int index = get_number_from_stdin();
         if(index < 0 || index >= (int)item.content.size())
           std::cout << color::red << "No such index!" << color::normal << '\n';
         else

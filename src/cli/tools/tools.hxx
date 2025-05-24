@@ -29,4 +29,6 @@ bool isnumber( const std::string &str );
 safe_string password_prompt(std::string name/* = "password" */);
 std::unique_ptr<crypto_provider> cli_setup_encryption();
 
+int get_number_from_stdin();
+
 #endif // TOOLS_HXX_INCLUDED

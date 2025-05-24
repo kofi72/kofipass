@@ -13,7 +13,6 @@ bool confirm(std::string what)
   char choice;
   while(true)
   {
-    std::cout << "save changes? y/n ";
     std::cin >> choice;
     std::cin.ignore();
     if(choice == 'y')

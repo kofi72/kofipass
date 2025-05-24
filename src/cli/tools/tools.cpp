@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <string>
+#include <limits>
 
 // https://stackoverflow.com/questions/1413445/reading-a-password-from-stdcin
 #ifdef WIN32
@@ -84,4 +85,24 @@ std::unique_ptr<crypto_provider> cli_setup_encryption()
   password = password_prompt();
   std::unique_ptr<crypto_provider> encryptor = std::make_unique<chacha20_poly1305>(password);
   return encryptor;
+}
+
+int get_number_from_stdin()
+{
+  int retn;
+  while(true)
+  {
+    std::cin >> retn;
+    if(std::cin.fail())
+    {
+      std::cin.clear();
+      std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+      std::cerr << "Invalid input\n";
+    }
+    else
+    {
+      std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+      return retn;
+    }
+  }
 }

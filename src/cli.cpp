@@ -14,7 +14,7 @@ using namespace std;
 void dissmiss(int signal)
 { 
   std::cout << endl;
-  if(confirm("terminate without save (" + to_string(signal) + ")"))
+  if(confirm("terminate \033[31;1mWITHOUT\033[0m save (" + to_string(signal) + ")"))
     exit(0);
 }
 
