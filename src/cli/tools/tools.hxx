@@ -26,7 +26,8 @@ void SetStdinEcho(bool enable);
 void interrupt();
 bool isnumber( const std::string &str );
 
-safe_string password_prompt(std::string name/* = "password" */);
+class bad_password_read{};
+safe_string password_prompt(std::string name/* = "password" */, int confirms);
 std::unique_ptr<crypto_provider> cli_setup_encryption();
 
 int get_number_from_stdin();

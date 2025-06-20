@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.20)  # CMake version check
 project(kpass_kofipass_passwdman)
 set(CMAKE_CXX_STANDARD 20)
-add_compile_options(-Wpedantic -Wall -Wextra -g0 -O3)
+add_compile_options(-Wpedantic -Wall -Wextra -g3 -O3)
 
 add_subdirectory(src)
 

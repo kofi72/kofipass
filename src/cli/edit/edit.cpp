@@ -2,7 +2,7 @@
 #include <iostream>
 
 #include "../tools/tools.hxx"
-
+/*
 std::unique_ptr<field_base> textFieldCreator()
 {
   safe_string name, content;
@@ -60,7 +60,7 @@ std::unique_ptr<field_base> customFieldCreator()
     }
   }
 }
-
+// */
 struct : public display_visitor
 {
   void visit( SimpleLogin& item )
@@ -90,8 +90,7 @@ struct : public display_visitor
       }
       else if( choice == 'p' )
       {
-        std::string new_password = password_prompt( "New password" );
-        item.password = new_password;
+        item.password = password_prompt( "New password", 2);
       }
     }
   }
@@ -161,8 +160,7 @@ struct : public display_visitor
       }
       else if( choice == 'p' )
       {
-        std::string new_password = password_prompt( "New password" );
-        item.password = new_password;
+        item.password = password_prompt( "New password", 2);
       }
       else if( choice == 't' )
       {
@@ -172,6 +170,7 @@ struct : public display_visitor
       }
     }
   }
+  /*
   void visit( customItem& item )
   {
     char choice = 0;
@@ -226,5 +225,5 @@ struct : public display_visitor
       }
     }
   }
+  // */
 } item_editor;
-

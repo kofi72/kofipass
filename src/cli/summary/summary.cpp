@@ -27,8 +27,10 @@ public:
   {
     std::cout << item.name;
   }
+  /*
   void visit(customItem& item) override
   {
     std::cout << item.name;
   }
+  // */
 }item_summary;

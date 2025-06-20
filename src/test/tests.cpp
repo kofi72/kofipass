@@ -9,6 +9,8 @@
 
 #include "../crypto/crypto_provider.hxx"
 
+#include "../json/export.hxx"
+
 #include <iostream>
 #include <iomanip>
 #include <string>
@@ -39,7 +41,7 @@ void run_test()
       std::cerr << color::green << "OK\n" << color::normal;
       std::cerr << "testing folder::json()... ";
     }
-    auto json = folder.json();
+    auto json = jsonify(&folder);
     if constexpr( verbose )
     {
       std::cerr << color::green << "OK\n" << color::normal;
@@ -57,7 +59,7 @@ void run_test()
       std::cerr << color::green << "OK\n" << color::normal;
       std::cerr << "testing folder::json()... ";
     }
-    json = folder2.json();
+    json = jsonify(&folder2);
     if constexpr( verbose )
     {
       std::cerr << color::green << "OK\n" << color::normal;

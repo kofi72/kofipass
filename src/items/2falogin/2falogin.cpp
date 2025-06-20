@@ -14,25 +14,20 @@ twofa_login::twofa_login(const std::string name, const std::string login, const 
 :SimpleLogin(name, login, password, website), totp_secret(string_to_ustring(decodeBase32(totp_secret)))
 {}
 
-twofa_login::twofa_login(nlohmann::json data)
-:SimpleLogin(data),totp_secret(string_to_ustring(base64_decode(data["secret"])))
+twofa_login::twofa_login(SimpleLogin &&simplelogin, std::basic_string<uint8_t> totp_secret)
+:SimpleLogin(simplelogin), totp_secret(totp_secret)
 {}
-
-nlohmann::json twofa_login::json()
-{
-  nlohmann::json json_obj = SimpleLogin::json();
-  json_obj["type"] = this->type;
-  json_obj["secret"] = base64_encode(ustring_to_string(this->totp_secret));
-  return json_obj;
-}
 
 void twofa_login::accept_visit(display_visitor& visitor)
 {
   visitor.visit( *this );
 }
 
-
 void twofa_login::set_secret(std::string secret_base32)
 {
   this->totp_secret = string_to_ustring(decodeBase32(secret_base32));
+}
+std::string twofa_login::get_type() const noexcept 
+{
+  return this->type;
 }

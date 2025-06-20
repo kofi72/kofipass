@@ -7,16 +7,14 @@
 
 #include <memory>
 
-struct Item : public jsonExportable, public visitable
+struct Item : public visitable
 {
   safe_string name;
 
+
   Item(const safe_string& name);
   virtual ~Item() = default;
-
-  nlohmann::json json() override;
+  virtual std::string get_type() const noexcept = 0;
 };
-
-std::unique_ptr<Item> new_item_from_json(nlohmann::json data);
 
 #endif // ITEM_BASE_HXX_INCLUDED

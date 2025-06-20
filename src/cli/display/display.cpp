@@ -9,15 +9,15 @@
 class cli_display_system : public display_visitor
 {
 private:
-  std::unique_ptr<Item> folder_creator() const
+  std::shared_ptr<Item> folder_creator() const
   {
     using std::cout, std::cin;
     safe_string folder_name;
     cout << "Enter folder name: ";
     std::getline( cin, folder_name );
-    return std::make_unique<Folder>( folder_name );
+    return std::make_shared<Folder>( folder_name );
   }
-  std::unique_ptr<Item> simplelogin_creator() const
+  std::shared_ptr<Item> simplelogin_creator() const
   {
     using std::cout, std::cin;
     std::string name, login, password, website;
@@ -25,20 +25,20 @@ private:
     std::getline( cin, name );
     cout << "Enter login: ";
     std::getline( cin, login );
-    password = password_prompt( "Enter password" );
+    password = password_prompt( "Enter password", 1);
     cout << "Enter website: ";
     std::getline( cin, website );
-    return std::make_unique<SimpleLogin>( name, login, password, website );
+    return std::make_shared<SimpleLogin>( name, login, password, website );
   }
-  std::unique_ptr<Item> encryptedfolder_creator() const
+  std::shared_ptr<Item> encryptedfolder_creator() const
   {
     using std::cout, std::cin;
     std::string name;
     cout << "Enter name: ";
     std::getline( cin, name );
-    return std::make_unique<EncryptedFolder>( name, cli_setup_encryption() );
+    return std::make_shared<EncryptedFolder>( name, cli_setup_encryption() );
   }
-  std::unique_ptr<Item> twofa_login_creator() const
+  std::shared_ptr<Item> twofa_login_creator() const
   {
     using std::cout, std::cin;
     std::string name, login, password, website, secret;
@@ -46,12 +46,13 @@ private:
     std::getline( cin, name );
     cout << "Enter login: ";
     std::getline( cin, login );
-    password = password_prompt( "Enter password" );
+    password = password_prompt( "Enter password", 1);
     cout << "Enter website: ";
     std::getline( cin, website );
-    secret = password_prompt( "Enter 2FA secret" );
-    return std::make_unique<twofa_login>( name, login, password, website, secret );
+    secret = password_prompt( "Enter 2FA secret", 1);
+    return std::make_shared<twofa_login>( name, login, password, website, secret );
   }
+  /*
   std::unique_ptr<Item> customItem_creator() const
   {
     using std::cout, std::cin;
@@ -60,7 +61,8 @@ private:
     std::getline( cin, name);
     return std::make_unique<customItem>(name);
   }
-  std::unique_ptr<Item> new_item_cli() const
+  // */
+  std::shared_ptr<Item> new_item_cli() const
   {
     using std::cout, std::cin;
     cout << "Select item type: \n"
@@ -68,7 +70,7 @@ private:
          << "2) Simple login\n"
          << "3) Encrypted Folder\n"
          << "4) 2fa login\n"
-         << "5) Customizable item\n";
+  /*       << "5) Customizable item\n" */ ;
     while( true )
     {
       int choice;
@@ -89,13 +91,13 @@ private:
       case 4:
         return twofa_login_creator();
         break;
-      case 5:
-        return customItem_creator();
-        break;
+//      case 5:
+//        return customItem_creator();
+//        break;
       }
     }
   }
-  void edit_item_cli( std::unique_ptr<Item>& item )
+  void edit_item_cli( std::shared_ptr<Item>& item )
   {
     item->accept_visit( item_editor );
   }
@@ -169,7 +171,7 @@ public:
               break;
             }
             std::cerr << "extracting folder...\n";
-            std::unique_ptr<Folder> extracted = efolder->extract_folder();
+            std::shared_ptr<Folder> extracted = efolder->extract_folder();
             std::cerr << "replacing item...\n";
             item.content[index] = std::move(extracted);
           }
@@ -242,6 +244,7 @@ public:
          << "  TOTP:     " << item.get_totp() << '\n';
     interrupt();
   }
+  /*
   void visit( customItem& item )
   {
     using std::cin, std::cout;
@@ -286,4 +289,5 @@ public:
       }
     }
   }
+  // */
 };

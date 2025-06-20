@@ -13,6 +13,7 @@ public:
 
     ~safe_string();
     safe_string& operator=(const safe_string& s);
+    bool operator==(const safe_string& s) const;
     void clear() noexcept;
 
 private:

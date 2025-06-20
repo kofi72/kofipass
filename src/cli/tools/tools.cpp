@@ -67,7 +67,7 @@ bool isnumber( const std::string &str )
   return true;
 }
 
-safe_string password_prompt(std::string name = "password")
+safe_string extract_passwd_from_stdin(std::string name)
 {
   std::cout << color::red << name << color::normal << ": ";
   safe_string password;
@@ -78,11 +78,36 @@ safe_string password_prompt(std::string name = "password")
   return password;
 }
 
+safe_string password_prompt(std::string name = "password", int confirms = 1)
+{
+  if(confirms == 1) return extract_passwd_from_stdin(name);
+  using namespace std::string_literals;
+  while(true)
+  {
+    safe_string password = extract_passwd_from_stdin(name);
+    try
+    {
+      for(int i = 1; i < confirms; i++)
+      {
+        safe_string confirm = extract_passwd_from_stdin("Confirm "s+name);
+        if(confirm != password)
+          throw bad_password_read();
+      }
+      return password;
+    }
+    catch (bad_password_read &e)
+    {
+      std::cout << color::red << "Passwords do not match!\a\n";
+    }
+    
+  }
+}
+
 std::unique_ptr<crypto_provider> cli_setup_encryption()
 {
   using std::cout, std::cin;
   safe_string password;
-  password = password_prompt();
+  password = password_prompt("password", 2);
   std::unique_ptr<crypto_provider> encryptor = std::make_unique<chacha20_poly1305>(password);
   return encryptor;
 }

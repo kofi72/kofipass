@@ -1,8 +1,8 @@
 #include "../items/items.hxx"
 #include "tools/tools.hxx"
-#include "field/field.cpp"
 #include "edit/edit.cpp"
 #include "display/display.cpp"
+#include "../json/export.hxx"
 
 #include <iostream>
 #include <string>
@@ -33,40 +33,31 @@ bool cli_open_file(std::string file_path)
     return false;
   }
 
-  std::unique_ptr<crypto_provider> encryptor = cli_setup_encryption();
+  std::shared_ptr<crypto_provider> encryptor = cli_setup_encryption();
 
-  string json_str;
+  string content;
   try
   {
-    json_str = encryptor->load_file(file_path);
+    content = encryptor->load_file(file_path);
   }
   catch(std::runtime_error &e)
   {
     cout << color::red << "File load failed\n" << color::normal;
     return false;
   }
-  nlohmann::json json;
-  try
-  {
-    json = nlohmann::json::parse(json_str);
-  }
-  catch(nlohmann::json_abi_v3_11_3::detail::parse_error &e)
-  {
-    cout << color::red << "Bad password or corrupted data\n" << color::normal;
-    return false;
-  }
-  Folder root(json);
 
+  std::shared_ptr<Item> root = new_item_from_json(content);
+  
   cli_display_system display;
-  root.accept_visit(display);
+  root->accept_visit(display);
 
   // if root folder content changed
   // prompt save changes
-  if(json_str !=  root.json().dump())
+  if(const std::string root_json = jsonify(root.get()); content !=  root_json)
   {
     if(confirm("save to file"))
     {
-      encryptor->export_to_file(file_path, root.json().dump());
+      encryptor->export_to_file(file_path, root_json);
       cout << color::green << "Exported to file!\n" << color::normal;
     }
   }
@@ -99,11 +90,11 @@ void cli_new_file()
   cout << "Enter vault name: ";
   std::getline(cin, name);
 
-  std::unique_ptr<crypto_provider> encryptor = cli_setup_encryption();
+  std::shared_ptr<crypto_provider> encryptor = cli_setup_encryption();
   Folder root(name);
   try
   {
-    encryptor->export_to_file(path, root.json().dump());
+    encryptor->export_to_file(path, jsonify(&root));
   }
   catch(std::runtime_error &e)
   {

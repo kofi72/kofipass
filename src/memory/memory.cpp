@@ -1,6 +1,7 @@
 #include "memory.hxx"
 
 #include <cstdlib>
+#include <string>
 
 safe_string::safe_string() : std::string() {}
 safe_string::safe_string( const char* s ) : std::string( s ) {}
@@ -19,6 +20,13 @@ safe_string& safe_string::operator=( const safe_string& s )
   secure_erase();
   std::string::operator=( s );
   return *this;
+}
+
+bool safe_string::operator==(const safe_string& s) const
+{
+  if(static_cast<std::string>(*this) == static_cast<std::string>(s))
+    return true;
+  return false;
 }
 
 void safe_string::clear() noexcept
