@@ -1,5 +1,5 @@
-add_library(cli cli.cpp)
-add_library(cli_tools tools/tools.cpp)
+add_library(kpass_cli cli.cpp)
+add_library(kpass_cli_tools tools/tools.cpp)
 
-target_link_libraries(cli_tools crypto_provider)
-target_link_libraries(cli slogin folder efolder 2falogin safe_memory cli_tools item_json_export)
+target_link_libraries(kpass_cli_tools kpass_crypto_provider)
+target_link_libraries(kpass_cli kpass_slogin kpass_folder kpass_efolder kpass_2falogin kpass_safe_memory kpass_cli_tools kpass_item_json_export)

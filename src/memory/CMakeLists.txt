@@ -1,1 +1,1 @@
-add_library(safe_memory memory.cpp)
+add_library(kpass_safe_memory memory.cpp)

@@ -6,4 +6,4 @@ add_subdirectory(cli)
 add_subdirectory(test)
 
 add_executable(kpass cli.cpp)
-target_link_libraries(kpass cli testkpass)
+target_link_libraries(kpass kpass_cli kpass_testkpass)

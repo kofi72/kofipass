@@ -1,2 +1,2 @@
-add_library(testkpass tests.cpp)
-target_link_libraries(testkpass crypto_provider cli slogin folder efolder 2falogin safe_memory cli_tools)
+add_library(kpass_testkpass tests.cpp)
+target_link_libraries(kpass_testkpass kpass_crypto_provider kpass_cli kpass_slogin kpass_folder kpass_efolder kpass_2falogin kpass_safe_memory kpass_cli_tools)

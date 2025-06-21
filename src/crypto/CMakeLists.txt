@@ -20,5 +20,5 @@ add_library(cppotp libcppotp/otp.cpp)
 target_link_libraries(cppotp cppotp_sha1 cppotp_bytes)
 
 # CRYPTO
-add_library(crypto_provider crypto_provider.cpp)
-target_link_libraries(crypto_provider argon2_wrapper safe_memory chacha20)
+add_library(kpass_crypto_provider crypto_provider.cpp)
+target_link_libraries(kpass_crypto_provider argon2_wrapper kpass_safe_memory chacha20)
