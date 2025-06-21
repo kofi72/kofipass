@@ -26,7 +26,7 @@ struct EncryptedFolder : public Item
   EncryptedFolder(safe_string name, std::shared_ptr<crypto_provider> enc);
   EncryptedFolder( safe_string name, std::string content_base64);
 
-  void accept_visit(display_visitor& visitor) override;
+  void accept_visit(item_visitor& visitor) override;
   std::string get_type() const noexcept override;
 };
 

@@ -15,6 +15,7 @@ SimpleLogin     createSimpleLogin     (nlohmann::json data);
 twofa_login     createTwofa_login     (nlohmann::json data);
 Folder          createFolder          (nlohmann::json data);
 EncryptedFolder createEncryptedFolder (nlohmann::json data);
+UnknownItem     createUnknownItem     (nlohmann::json data);
 
 std::shared_ptr<Item> new_item_from_json(safe_string jsonString)
 {
@@ -48,7 +49,7 @@ std::shared_ptr<Item> new_item_from_json(const nlohmann::json& jsonObject)
     return std::make_shared<twofa_login    > (createTwofa_login      (jsonObject));
 
   else
-    throw std::runtime_error( "Unsupported item type: " + objType );
+    return std::make_shared<UnknownItem    > (createUnknownItem      (jsonObject));
 }
 
 SimpleLogin     createSimpleLogin     (nlohmann::json data)
@@ -66,14 +67,18 @@ Folder          createFolder          (nlohmann::json data)
   if(not json_array_content.is_array())
     throw std::invalid_argument("Folder content is not an array");
   for(auto &i : json_array_content)
-    folder_retn.content.emplace_back( new_item_from_json(i) );
+    folder_retn.content.emplace_back( new_item_from_json(static_cast<safe_string>(i)) );
   return folder_retn;
 }
 
 EncryptedFolder createEncryptedFolder (nlohmann::json data)
 {
-  EncryptedFolder retn(data["name"], data["content"]);
-  return (retn);
+  return EncryptedFolder(data["name"], data["content"]);
+}
+
+UnknownItem     createUnknownItem     (nlohmann::json data)
+{
+  return UnknownItem(data["name"], data["type"], data.dump());
 }
 
 // Might replace dynamic_cast with static_cast since i see no place for error
@@ -94,7 +99,7 @@ safe_string jsonify(Item const*const item)
     return jsonify(dynamic_cast<twofa_login const*const>     (item));
 
   else
-    throw std::runtime_error( "Unsupported item type: " + objType );
+    return jsonify(dynamic_cast<UnknownItem const*const>     (item));
 }
 
 nlohmann::json jsonify_Item(Item const*const ptr)
@@ -141,4 +146,8 @@ safe_string jsonify(const EncryptedFolder  *item)
   nlohmann::json json_obj = jsonify_Item(item);
   json_obj["content"] = item->content_base64;
   return json_obj.dump();
+}
+safe_string jsonify(const UnknownItem      *item)
+{
+  return item->dump;
 }

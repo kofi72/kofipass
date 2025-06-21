@@ -65,7 +65,7 @@ EncryptedFolder::EncryptedFolder( safe_string name, std::shared_ptr<crypto_provi
   this->close();
 }
 
-void EncryptedFolder::accept_visit( display_visitor& visitor )
+void EncryptedFolder::accept_visit( item_visitor& visitor )
 {
   visitor.visit( *this );
 }

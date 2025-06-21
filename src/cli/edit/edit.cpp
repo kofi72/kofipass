@@ -2,66 +2,7 @@
 #include <iostream>
 
 #include "../tools/tools.hxx"
-/*
-std::unique_ptr<field_base> textFieldCreator()
-{
-  safe_string name, content;
-  std::cout << "Field name: ";
-  std::getline( std::cin, name );
-  std::cout << "Field content: ";
-  std::getline( std::cin, content );
-  return std::make_unique<text_field>( name, content );
-}
-std::unique_ptr<field_base> hiddenFieldCreator()
-{
-  safe_string name, content;
-  std::cout << "Field name: ";
-  std::getline( std::cin, name );
-  std::cout << "Field content: ";
-  SetStdinEcho(false);
-  std::getline( std::cin, content );
-  SetStdinEcho(true);
-  return std::make_unique<hidden_field>( name, content );
-}
-std::unique_ptr<field_base> totpFieldCreator()
-{
-  safe_string name, totp_secret_base32;
-  std::cout << "Field name: ";
-  std::getline( std::cin, name );
-  std::cout << "base32 totp secret: ";
-  std::getline( std::cin, totp_secret_base32 );
-  return std::make_unique<totp_field>( name, totp_secret_base32 );
-}
-std::unique_ptr<field_base> customFieldCreator()
-{
-  for( ;; )
-  {
-    std::cout << "Field type:\n"
-              << "1) text field\n"
-              << "2) hidden text field\n"
-              << "3) TOTP field\n";
-    char choice;
-    std::cin >> choice;
-    std::cin.ignore();
-    switch( choice )
-    {
-    case '1':
-      return textFieldCreator();
-      break;
-    case '2':
-      return hiddenFieldCreator();
-      break;
-    case '3':
-      return totpFieldCreator();
-      break;
-    default:
-      std::cout << "No such field type\n";
-      break;
-    }
-  }
-}
-// */
-struct : public display_visitor
+struct : public item_visitor
 {
   void visit( SimpleLogin& item )
   {
@@ -76,21 +17,38 @@ struct : public display_visitor
           << "q) exit\n";
       cin >> choice;
       cin.ignore();
-      if( choice == 'n' )
+      switch(choice)
       {
-        std::string new_name;
-        std::getline( cin, new_name );
-        item.name = new_name;
-      }
-      else if( choice == 'l' )
-      {
-        std::string new_login;
-        std::getline( cin, new_login );
-        item.login = new_login;
-      }
-      else if( choice == 'p' )
-      {
-        item.password = password_prompt( "New password", 2);
+        case 'n':
+        {
+          std::string new_name;
+          std::getline( cin, new_name );
+          item.name = new_name;
+        }
+        break;
+        case 'l':
+        {
+          std::string new_login;
+          std::getline( cin, new_login );
+          item.login = new_login;
+        }
+        break;
+        case 'p':
+          item.password = password_prompt( "New password", 2);
+        break;
+        case 'q':
+          break;
+        case 't':
+        case 'r': // fall-through
+          {
+            cout << color::red << "[HALT] " << color::normal << "This action cannot be performed on this object!\n";
+            std::string dummy;
+            std::getline( cin, dummy );
+          }
+        break;
+        default:
+          cout << color::red << "[WARN]" << color::normal << " ACTION DISCARDED: `" << choice << "`\n";
+        break;
       }
     }
   }
@@ -105,11 +63,30 @@ struct : public display_visitor
           << "q) exit\n";
       cin >> choice;
       cin.ignore();
-      if( choice == 'n' )
+      switch(choice)
       {
-        std::string new_name;
-        std::getline( cin, new_name );
-        item.name = new_name;
+        case 'n':
+        {
+          std::string new_name;
+          std::getline( cin, new_name );
+          item.name = new_name;
+        }
+        break;
+        case 'p':
+        case 'l': // fall-through
+        case 't': // fall-through
+        case 'r': // fall-through
+          {
+            cout << color::red << "[HALT] " << color::normal << "This action cannot be performed on this object!\n";
+            std::string dummy;
+            std::getline( cin, dummy );
+          }
+        break;
+        case 'q':
+          break;
+        default:
+          cout << color::red << "[WARN]" << color::normal << " ACTION DISCARDED: `" << choice << "`\n";
+        break;
       }
     }
   }
@@ -124,11 +101,30 @@ struct : public display_visitor
           << "q) exit\n";
       cin >> choice;
       cin.ignore();
-      if( choice == 'n' )
+      switch(choice)
       {
-        std::string new_name;
-        std::getline( cin, new_name );
-        item.name = new_name;
+        case 'n':
+        {
+          std::string new_name;
+          std::getline( cin, new_name );
+          item.name = new_name;
+        }
+        break;
+        case 'p':
+        case 'l': // fall-through
+        case 't': // fall-through
+        case 'r': // fall-through
+          {
+            cout << color::red << "[HALT] " << color::normal << "This action cannot be performed on this object!\n";
+            std::string dummy;
+            std::getline( cin, dummy );
+          }
+        break;
+        case 'q':
+          break;
+        default:
+          cout << color::red << "[WARN]" << color::normal << " ACTION DISCARDED: `" << choice << "`\n";
+        break;
       }
     }
   }
@@ -139,34 +135,89 @@ struct : public display_visitor
     while( choice != 'q' )
     {
       cout
-          << "n) name\n"
-          << "l) login\n"
-          << "p) password\n"
-          << "t) TOTP secret\n"
-          << "q) exit\n";
+          << "n) name"          "\n"
+          << "l) login"         "\n"
+          << "p) password"      "\n"
+          << "t) TOTP secret"   "\n"
+          << "q) exit"          "\n";
       cin >> choice;
       cin.ignore();
-      if( choice == 'n' )
+      switch(choice)
       {
-        std::string new_name;
-        std::getline( cin, new_name );
-        item.name = new_name;
+        case 'n':
+        {
+          std::string new_name;
+          std::getline( cin, new_name );
+          item.name = new_name;
+        }
+        break;
+        case 'l':
+        {
+          std::string new_login;
+          std::getline( cin, new_login );
+          item.login = new_login;
+        }
+        break;
+        case 'p':
+          item.password = password_prompt( "New password", 2);
+        break;
+        case 't':
+        {
+          std::string new_secret;
+          std::getline( cin, new_secret );
+          item.set_secret( new_secret );
+        }
+        break;
+        case 'q':
+          break;
+        case 'r': // fall-through
+          {
+            cout << color::red << "[HALT] " << color::normal << "This action cannot be performed on this object!\n";
+            std::string dummy;
+            std::getline( cin, dummy );
+          }
+        break;
+        default:
+          cout << color::red << "[WARN]" << color::normal << " ACTION DISCARDED: `" << choice << "`\n";
+        break;
       }
-      else if( choice == 'l' )
+    }
+  }
+  void visit( UnknownItem& item)
+  {
+    using std::cin, std::cout;
+    char choice = 0;
+    while(choice != 'q')
+    {
+      cout 
+        << color::red << "[WARNING] Unknown item type""\n"
+        << "r) raw"                                   "\n"
+        << "q) exit"                                  "\n";
+      cin >> choice;
+      cin.ignore();
+      switch(choice)
       {
-        std::string new_login;
-        std::getline( cin, new_login );
-        item.login = new_login;
-      }
-      else if( choice == 'p' )
-      {
-        item.password = password_prompt( "New password", 2);
-      }
-      else if( choice == 't' )
-      {
-        std::string new_secret;
-        std::getline( cin, new_secret );
-        item.set_secret( new_secret );
+        case 'r':
+        {
+          safe_string new_raw;
+          std::getline( cin, new_raw );
+          item.dump = new_raw; // sync might be problematic while not relying on json implementation. The object should be superseeded?
+          cout << "Item dump was updated, yet the object information is desynchronized. It will take effect the next time vault is exported.\n";
+        }
+        break;
+        case 'p':
+        case 'l': // fall-through
+        case 't': // fall-through
+        case 'n': // fall-through
+          {
+            cout << color::red << "[HALT] " << color::normal << "This action cannot be performed on this object!\n";
+            std::string dummy;
+            std::getline( cin, dummy );
+          }
+        break;
+        break;
+        case 'q':
+          break;
       }
     }
   }

@@ -7,7 +7,7 @@
 
 struct visitable
 {
-  virtual void accept_visit(display_visitor& visitor) = 0;
+  virtual void accept_visit(item_visitor& visitor) = 0;
 };
 
 #endif // VISITABLE_HXX_INCLUDED

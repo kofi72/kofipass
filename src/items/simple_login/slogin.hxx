@@ -12,7 +12,7 @@ struct SimpleLogin : public Item
   SimpleLogin(const safe_string name, const safe_string login, const safe_string password, const safe_string website);
   virtual ~SimpleLogin() = default;
 
-  void accept_visit(display_visitor& visitor) override;
+  void accept_visit(item_visitor& visitor) override;
   std::string get_type() const noexcept override;
 };
 

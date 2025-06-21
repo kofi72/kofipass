@@ -13,5 +13,6 @@ safe_string jsonify(const SimpleLogin*     item);
 safe_string jsonify(const twofa_login*     item);
 safe_string jsonify(const Folder*          item);
 safe_string jsonify(const EncryptedFolder* item);
+safe_string jsonify(const UnknownItem*     item);
 
 #endif

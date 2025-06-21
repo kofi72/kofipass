@@ -55,6 +55,8 @@ bool cli_open_file(std::string file_path)
   // prompt save changes
   if(const std::string root_json = jsonify(root.get()); content !=  root_json)
   {
+    std::cout << root_json << std::endl;
+    std::cout << content << std::endl;
     if(confirm("save to file"))
     {
       encryptor->export_to_file(file_path, root_json);

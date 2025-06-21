@@ -4,7 +4,7 @@
 #include <iostream>
 #include <string>
 
-class : public display_visitor
+class : public item_visitor
 {
 public:
   void visit( Folder& item ) override
@@ -26,6 +26,10 @@ public:
   void visit( twofa_login& item) override
   {
     std::cout << item.name;
+  }
+  void visit( UnknownItem& item ) override
+  {
+    std::cout << color::red << "[?] " << color::magenta << item.name << color::normal;
   }
   /*
   void visit(customItem& item) override

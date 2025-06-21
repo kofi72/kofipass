@@ -18,7 +18,7 @@ twofa_login::twofa_login(SimpleLogin &&simplelogin, std::basic_string<uint8_t> t
 :SimpleLogin(simplelogin), totp_secret(totp_secret)
 {}
 
-void twofa_login::accept_visit(display_visitor& visitor)
+void twofa_login::accept_visit(item_visitor& visitor)
 {
   visitor.visit( *this );
 }

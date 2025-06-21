@@ -10,7 +10,7 @@ Folder::Folder(Folder& obj) noexcept
 :Item(obj.name),content(obj.content)
 {}
 
-void Folder::accept_visit( display_visitor& visitor )
+void Folder::accept_visit( item_visitor& visitor )
 {
   visitor.visit( *this );
 }

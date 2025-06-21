@@ -80,6 +80,7 @@ safe_string extract_passwd_from_stdin(std::string name)
 
 safe_string password_prompt(std::string name = "password", int confirms = 1)
 {
+  using namespace std::literals::string_literals;
   if(confirms == 1) return extract_passwd_from_stdin(name);
   using namespace std::string_literals;
   while(true)
@@ -90,7 +91,7 @@ safe_string password_prompt(std::string name = "password", int confirms = 1)
       for(int i = 1; i < confirms; i++)
       {
         safe_string confirm = extract_passwd_from_stdin("Confirm "s+name);
-        if(confirm != password)
+        if(confirm != password  and confirm != static_cast<safe_string>("true"s))
           throw bad_password_read();
       }
       return password;

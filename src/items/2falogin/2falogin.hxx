@@ -16,7 +16,7 @@ struct twofa_login : public SimpleLogin
   twofa_login(const std::string name, const std::string login, const std::string password, const std::string website, const std::string totp_secret);
   twofa_login(SimpleLogin &&simplelogin, std::basic_string<uint8_t> totp_secret);
 
-  void accept_visit(display_visitor& visitor) override;
+  void accept_visit(item_visitor& visitor) override;
   void set_secret(std::string secret_base32);
   std::string get_type() const noexcept override;
 };

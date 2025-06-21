@@ -1,3 +1,4 @@
+#pragma once
 #ifndef CLI_HXX_INCLUDED
 #define CLI_HXX_INCLUDED
 

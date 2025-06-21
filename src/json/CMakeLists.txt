@@ -1,2 +1,2 @@
 add_library(kpass_item_json_export export.cpp)
-target_link_libraries(kpass_item_json_export kpass_slogin kpass_folder kpass_efolder kpass_2falogin)
+target_link_libraries(kpass_item_json_export kpass_slogin kpass_folder kpass_efolder kpass_2falogin kpass_unknown )

@@ -1,12 +1,14 @@
 #include "../summary/summary.cpp"
 #include "../tools/tools.hxx"
 
+bool confirm(std::string what); // cli/cli.cpp
+
 #include <string>
 #include <iostream>
 #include <iomanip>
 #include <cctype>
 
-class cli_display_system : public display_visitor
+class cli_display_system : public item_visitor
 {
 private:
   std::shared_ptr<Item> folder_creator() const
@@ -243,6 +245,23 @@ public:
          << "  website:  " << item.website << '\n'
          << "  TOTP:     " << item.get_totp() << '\n';
     interrupt();
+  }
+  void visit( UnknownItem& item )
+  {
+    using std::cin, std::cout;
+    cout << color::red << "[?] " << item.name << color::normal << ":\n"
+      << "  Type name: " << item.type << '\n'
+      << "Item dump: (hidden) size: ";
+    int dumplength = item.dump.length();
+    if(dumplength < 48)
+      cout << color::green  << "small ("  << dumplength;
+    else if(dumplength < 128)
+      cout << color::yellow << "medium (" << dumplength;
+    else
+      cout << color::red    << "big ("    << dumplength;
+    cout << ")\n" << color::normal;
+     if(confirm( "Show raw data"))
+       cout << item.dump << std::endl;
   }
   /*
   void visit( customItem& item )

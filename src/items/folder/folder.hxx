@@ -18,7 +18,7 @@ struct Folder : public Item
   virtual ~Folder() = default;
 
   std::string get_type() const noexcept override;
-  void accept_visit(display_visitor& visitor) override;
+  void accept_visit(item_visitor& visitor) override;
 };
 
 
