@@ -72,7 +72,6 @@ void run_test()
     }
   }
 
-  //rijndael
   {
     if constexpr( verbose )
     {
